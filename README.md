@@ -128,7 +128,7 @@ Open `http://localhost:5173`
 ## Project Structure
 
 ```
-DataFordge/
+OverWatch/
 ├── backend/
 │   ├── main.py                          # FastAPI entry point
 │   ├── requirements.txt                 # Python dependencies
