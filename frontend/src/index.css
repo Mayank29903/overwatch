@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ow-bg: #060606;
+  --color-ow-panel: #0e0e0e;
+  --color-ow-surface: #151515;
+  --color-ow-border: #1e1e1e;
+  --color-ow-border-bright: #2a2a2a;
+  --color-ow-accent: #b8ff29;
+  --color-ow-accent-dim: #6b9916;
+  --color-ow-danger: #ff2942;
+  --color-ow-warning: #ffaa29;
+  --color-ow-muted: #555555;
+  --color-ow-text: #e8e8e8;
+  --color-ow-text-dim: #888888;
+  --font-mono: "JetBrains Mono", "Roboto Mono", ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+/* ── Base ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-ow-bg);
+  color: var(--color-ow-text);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-ow-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-ow-border-bright); border-radius: 3px; }
+
+/* ── Scanline overlay ── */
+.scanline-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* ── Glow pulse ── */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 4px var(--color-ow-accent), 0 0 12px rgba(184, 255, 41, 0.15); }
+  50% { box-shadow: 0 0 8px var(--color-ow-accent), 0 0 24px rgba(184, 255, 41, 0.3); }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes typing-cursor {
+  0%, 100% { border-color: var(--color-ow-accent); }
+  50% { border-color: transparent; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes waveform-bar {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out both;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.animate-dot-pulse {
+  animation: dot-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Panel styling ── */
+.ow-panel {
+  background: var(--color-ow-panel);
+  border: 1px solid var(--color-ow-border);
+  transition: border-color 0.2s ease;
+}
+
+.ow-panel:hover {
+  border-color: var(--color-ow-border-bright);
+}
+
+.ow-panel-active {
+  border-color: var(--color-ow-accent);
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ── Button styling ── */
+.ow-btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.625rem 1.25rem;
+  border: 1px solid var(--color-ow-border);
+  background: var(--color-ow-surface);
+  color: var(--color-ow-text);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ow-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.ow-btn:hover::after {
+  transform: translateX(100%);
+}
+
+.ow-btn:hover {
+  border-color: var(--color-ow-accent);
+  color: var(--color-ow-accent);
+}
+
+.ow-btn-primary {
+  background: var(--color-ow-accent);
+  color: #000;
+  border-color: var(--color-ow-accent);
+  font-weight: 600;
+}
+
+.ow-btn-primary:hover {
+  background: #c8ff50;
+  color: #000;
+  box-shadow: 0 0 20px rgba(184, 255, 41, 0.3);
+}
+
+.ow-btn-danger {
+  border-color: var(--color-ow-danger);
+  color: var(--color-ow-danger);
+}
+
+.ow-btn-danger:hover {
+  background: var(--color-ow-danger);
+  color: #000;
+}
+
+/* ── Label styling ── */
+.ow-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ow-text-dim);
+  font-family: var(--font-mono);
+}
+
+/* ── Tag styling ── */
+.ow-tag {
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid;
+  font-family: var(--font-mono);
+}
+
+/* ── Waveform bars ── */
+.waveform-bar {
+  display: inline-block;
+  width: 3px;
+  margin: 0 1px;
+  background: var(--color-ow-accent);
+  border-radius: 1px;
+  transform-origin: bottom;
+  animation: waveform-bar 0.8s ease-in-out infinite;
+}
+
+.waveform-bar-danger {
+  background: var(--color-ow-danger);
+}
+
+/* ── Diff highlights ── */
+.diff-removed {
+  background: rgba(255, 41, 66, 0.15);
+  color: var(--color-ow-danger);
+  text-decoration: line-through;
+  padding: 0.1rem 0.25rem;
+}
+
+.diff-added {
+  background: rgba(184, 255, 41, 0.12);
+  color: var(--color-ow-accent);
+  padding: 0.1rem 0.25rem;
+  border-bottom: 1px solid var(--color-ow-accent);
+}
